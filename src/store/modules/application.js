@@ -1,5 +1,9 @@
 import { MUTATION_REGISTRY } from '../mutations'
 
+import {
+  FETCH_APPOINTMENTS_ACTION
+} from '../actions'
+
 export default {
   MUTATION_REGISTRY,
   state: {
@@ -12,5 +16,7 @@ export default {
       state.appointments = appointments
     }
   },
-  actions: { }
+  actions: {
+    FETCH_APPOINTMENTS_ACTION
+  }
 }

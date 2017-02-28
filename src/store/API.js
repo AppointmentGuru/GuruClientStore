@@ -12,36 +12,20 @@ let http = axios.create({
   }
 })
 
-http.interceptors.request.use(
-  function (config) {
-    let token = window.localStorage.getItem('appointmentguru_token')
-    let falseyValues = [null, false, '', 'null', undefined]
-    if (token &&
-        falseyValues.indexOf(token) === -1) {
-      config.headers['Authorization'] = `Token ${token}`
-    }
-    return config
-  },
-  function (error) {
-    return Promise.reject(error)
-  })
-
 http.interceptors.response.use(
   function (response) {
     return response
   },
   function (error) {
-    /* let isNotAuthenticated = error.response.status === 401
-    if (isNotAuthenticated) {
-      store.commit(AUTHENITCATION_EXCEPTION, error)
-    } */
+    // let isNotAuthenticated = error.response.status === 401
+    console.log(error.response.status)
     return Promise.reject(error)
   })
 
 const RESOURCES = {
   login: 'api/auth/login',
-  practitioner: 'api/practitioners',
-  appointment: 'api/v2/client/appointments'
+  practitioners: 'api/practitioners',
+  appointments: 'api/v2/client/appointments'
 }
 
 export const API = {

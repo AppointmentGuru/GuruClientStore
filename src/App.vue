@@ -36,7 +36,52 @@
       </el-col>
       <el-col :span="18">
         <div class='content' >
-          <img src="./assets/logo.png">
+          <center><img src="./assets/logo.png"></center>
+
+          <h3>Mutations</h3>
+          <el-collapse >
+            <el-collapse-item
+              v-for='(mutation, index) in mutations'
+              :key="mutation.name"
+              :title="mutation.name" :name="index">
+              <div>{{mutation.description}}</div>
+              <div>
+                <strong>Usage:</strong>
+                <pre><code>
+                this.$gurustore.commit('{{mutation.name}}')
+                </code></pre>
+                <el-button
+                  type="primary" size="small"
+                  @click='mutate(mutation.name)'>Run mutation
+                </el-button>
+              </div>
+            </el-collapse-item>
+          </el-collapse>
+
+          <h3>Actions</h3>
+          <el-collapse >
+            <el-collapse-item
+              v-for='(action, index) in actions'
+              :key="action.name"
+              :title="action.name" :name="index">
+              <div>{{action.description}}</div>
+              <div>{{action.requiresData}}
+                <div v-if='action.requiresData' >
+                  <input v-model='action.defaultData' />
+                  <el-button
+                    v-if='action.requiresData'
+                    type="primary" size="small"
+                    @click='runAction(action.name, action.defaultData)'>Run action with: {{action.defaultData}}
+                  </el-button>
+                </div>
+                <el-button
+                  v-if='!action.requiresData'
+                  type="primary" size="small"
+                  @click='runAction(action.name)'>
+                    Run action</el-button>
+              </div>
+            </el-collapse-item>
+          </el-collapse>
 
           <h3>Active state:</h3>
           <pre>{{state}}</pre>
@@ -47,11 +92,35 @@
 </template>
 
 <script>
+import {
+  MUTATION_REGISTRY,
+  ACTION_REGISTRY
+} from './store/mutations'
+
 export default {
+  MUTATION_REGISTRY,
   name: 'app',
+  methods: {
+    mutate (mutation) {
+      this.$gurustore.commit(mutation)
+    },
+    runAction (actionName, data) {
+      if (data) {
+        this.$gurustore.dispatch(actionName, data)
+      } else {
+        this.$gurustore.dispatch(actionName)
+      }
+    }
+  },
   computed: {
     state () {
       return this.$gurustore.state
+    },
+    mutations () {
+      return MUTATION_REGISTRY
+    },
+    actions () {
+      return ACTION_REGISTRY
     }
   }
 }
