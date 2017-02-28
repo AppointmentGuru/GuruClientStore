@@ -4,11 +4,14 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import App from './App'
 import GuruPlugin from './store/plugin'
+import ElementUI from 'element-ui'
+import 'element-ui/lib/theme-default/index.css'
 
 Vue.config.productionTip = false
 
 Vue.use(Vuex)
 Vue.use(GuruPlugin)
+Vue.use(ElementUI)
 
 /* eslint-disable no-new */
 new Vue({
