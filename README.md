@@ -2,6 +2,23 @@
 
 > A Vuex store for AppointmentGuru apps for clients
 
+## Installation
+
+```
+npm install --save git+ssh://git@github.com/AppointmentGuru/GuruClientStore.git#master
+```
+
+**Use as a plugin**
+```
+import GuruPlugin from 'guruclientstore/src/store/plugin'
+Vue.use(GuruPlugin)
+
+```
+
+* now you can access the store with `this.$gurustore`
+
+# Developers:
+
 ## Build Setup
 
 ``` bash
