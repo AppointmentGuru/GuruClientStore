@@ -44,7 +44,7 @@ const RESOURCES = {
   appointment: 'api/v2/client/appointments'
 }
 
-export default {
+export const API = {
   getUrl (url) {
     return http.get(url)
   },
