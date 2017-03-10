@@ -25,10 +25,12 @@ http.interceptors.response.use(
 const RESOURCES = {
   login: 'api/auth/login',
   practitioners: 'api/practitioners',
-  appointments: 'api/v2/client/appointments'
+  appointment: 'api/appointments', // v1: use for create
+  appointments: 'api/v2/client/appointments' // v2: use for get
 }
 
 export const API = {
+  axios: http,
   getUrl (url) {
     return http.get(url)
   },

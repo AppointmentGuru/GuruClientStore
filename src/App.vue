@@ -43,7 +43,16 @@
             <el-collapse-item
               v-for='(mutation, index) in mutations'
               :key="mutation.name"
-              :title="mutation.name" :name="index">
+              :name="index">
+                <template slot="title">
+                  {{mutation.name}}
+                  <el-button
+                    v-show='!mutation.requiresData'
+                    style='float: right;margin:10px;'
+                    type="primary" size="mini"
+                    @click.prevent='mutate(mutation.name)'>run
+                  </el-button>
+                </template>
               <div>{{mutation.description}}</div>
               <div>
                 <strong>Usage:</strong>
@@ -63,7 +72,17 @@
             <el-collapse-item
               v-for='(action, index) in actions'
               :key="action.name"
-              :title="action.name" :name="index">
+              :name="index">
+              <template slot="title">
+                {{action.name}}
+                <el-button
+                  v-show='!action.requiresData'
+                  style='float: right;margin:10px;'
+                  type="primary" size="mini"
+                  @click.prevent='runAction(action.name)'>run
+                </el-button>
+
+              </template>
               <div>{{action.description}}</div>
               <div>{{action.requiresData}}
                 <div v-if='action.requiresData' >
@@ -83,6 +102,34 @@
             </el-collapse-item>
           </el-collapse>
 
+          <h3>Filters</h3>
+          <p>
+          GuruStore provides a mixin which comes with utility methods for filtering results.
+          </p>
+          <strong>Usage</strong>
+          <pre>import GuruStoreMixins from 'guruclientstore/src/store/mixins</pre>
+
+          <el-collapse >
+            <el-collapse-item
+              title='gStoreGetAppointmentById'
+              name='gStoreGetAppointmentById' >
+              <div>
+              Search for id: <input v-model='appointmentId' />
+              <pre>{{selectedAppointment}}</pre>
+              </div>
+            </el-collapse-item>
+
+            <el-collapse-item
+              title='gStoreGetAppointmentsByDay'
+              name='gStoreGetAppointmentsByDay' >
+              <div>
+              Search for id: <input v-model='activeDay' />
+              <div>{{appointmentsByDay.length}} appointments for {{activeDay}}</div>
+              <pre>{{appointmentsByDay}}</pre>
+              </div>
+            </el-collapse-item>
+          </el-collapse>
+
           <h3>Active state:</h3>
           <pre>{{state}}</pre>
         </div>
@@ -96,10 +143,19 @@ import {
   MUTATION_REGISTRY,
   ACTION_REGISTRY
 } from './store/mutations'
+import GuruStoreMixins from './store/mixins'
+import moment from 'moment'
 
 export default {
   MUTATION_REGISTRY,
   name: 'app',
+  mixins: [GuruStoreMixins],
+  data () {
+    return {
+      'appointmentId': null,
+      'activeDay': moment().format('YYYY-MM-DD')
+    }
+  },
   methods: {
     mutate (mutation) {
       this.$gurustore.commit(mutation)
@@ -116,11 +172,23 @@ export default {
     state () {
       return this.$gurustore.state
     },
+    appointments () {
+      return this.$gurustore.state.appointments.appointments
+    },
+    appointmentsByDay () {
+      console.log(`searching ${this.appointments.length} appointments for ${this.activeDay}`)
+      return this.gStoreGetAppointmentsByDay(this.appointments, this.activeDay)
+    },
     mutations () {
       return MUTATION_REGISTRY
     },
     actions () {
       return ACTION_REGISTRY
+    },
+    selectedAppointment () {
+      console.log(`searching ${this.appointments.length} appointments`)
+      let id = parseInt(this.appointmentId)
+      return this.gStoreGetAppointmentById(this.appointments, id)
     }
   }
 }
