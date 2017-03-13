@@ -1,14 +1,16 @@
 import store from '@/store/GuruClientStore'
 import {API} from '@/store/API'
 import { assert, expect } from 'chai'
+import moment from 'moment'
+
+import { MUTATION_REGISTRY } from '@/store/mutations'
+
 import {
   SET_DATE_RANGE_ACTION,
   FETCH_APPOINTMENTS_ACTION,
   CREATE_APPOINTMENT_ACTION,
   FETCH_PRACTITIONER_ACTION
 } from '@/store/actions'
-import moment from 'moment'
-import { MUTATION_REGISTRY } from '@/store/mutations'
 
 // const noOp = (mutation, payload) => {}
 const testAction = (action, payload, state, expectedMutations, expectedActions, done) => {

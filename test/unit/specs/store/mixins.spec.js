@@ -31,6 +31,7 @@ describe('Mixins:', () => {
       let result = mixins.methods.gStoreGetAppointmentsByDay(mockApps, '2018-03-10')
       assert.equal(result.length, 0)
     })
+    it('')
   })
   describe('gStoreGetAppointmentsByStatus', () => {
     let mockApps = [
