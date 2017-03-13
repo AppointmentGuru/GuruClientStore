@@ -1,4 +1,7 @@
 import { MUTATION_REGISTRY } from '../mutations'
+import {
+  CREATE_APPOINTMENT_ACTION,
+  SET_DATE_RANGE_ACTION } from '../actions'
 
 export default {
   MUTATION_REGISTRY,
@@ -11,5 +14,8 @@ export default {
       state.appointments = appointments
     }
   },
-  actions: { }
+  actions: {
+    CREATE_APPOINTMENT_ACTION,
+    SET_DATE_RANGE_ACTION
+  }
 }

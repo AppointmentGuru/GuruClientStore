@@ -18,7 +18,7 @@ export const SET_DATE_RANGE_ACTION = ({ commit, dispatch }, dateRange) => {
 
 export const FETCH_APPOINTMENTS_ACTION = ({ commit, state }, dateRange) => {
   if (!dateRange) {
-    dateRange = state.application.activeDateRange
+    dateRange = state.activeDateRange
   }
   const url = `api/v2/client/appointments/?after_utc=${dateRange.fromDate}&before_utc=${dateRange.toDate}`
   return API.getUrl(url)

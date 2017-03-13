@@ -15,8 +15,8 @@ export default {
   },
   mutations: {
     // example: this.commit(CLIENTS_LOADED, [])
-    [MUTATION_REGISTRY.APPLICATION_SET_DATERANGE.name] (state, appointments) {
-      state.appointments = appointments
+    [MUTATION_REGISTRY.APPLICATION_SET_DATERANGE.name] (state, dateRange) {
+      state.activeDateRange = dateRange
     }
   },
   actions: {
