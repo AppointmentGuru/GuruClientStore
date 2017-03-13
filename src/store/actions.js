@@ -16,11 +16,12 @@ export const SET_DATE_RANGE_ACTION = ({ commit, dispatch }, dateRange) => {
   return dispatch('FETCH_APPOINTMENTS_ACTION')
 }
 
-export const FETCH_APPOINTMENTS_ACTION = ({ commit, state }, dateRange) => {
+export const FETCH_APPOINTMENTS_ACTION = ({ commit, state, rootState }, dateRange) => {
   if (!dateRange) {
     dateRange = state.activeDateRange
   }
-  const url = `api/v2/client/appointments/?after_utc=${dateRange.fromDate}&before_utc=${dateRange.toDate}`
+  let practitioner = rootState.practitioner.practitioner.id
+  const url = `api/v2/client/appointments/?practitioner=${practitioner}&after_utc=${dateRange.fromDate}&before_utc=${dateRange.toDate}`
   return API.getUrl(url)
     .then((response) => {
       commit(MUTATION_REGISTRY.APPPOINTMENT_SET_APPOINTMENTS.name, response.data.results)
